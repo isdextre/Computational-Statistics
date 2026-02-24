@@ -25,17 +25,24 @@ class BetaPrior:
         rng = default_rng() if rng is None else rng
         return rng.beta(a=self.a1, b=self.a2, size=size)
 
-# Prior conjunto
+# Prior conjunto BETA-GAMMA
 # Dado que lambda y p son independientes, podemos escribir la función de densidad conjunta como el producto de las funciones de densidad marginales
-
-
-
-# lambda y p son independientes, por lo que podemos escribir la función de densidad conjunta como el producto de las funciones de densidad marginales
 # Podemos reescribir (lambda, p) como (lambda_1, lambda_2) usando el jacobiano
 # lambda_1 = p * lambda, lambda_2 = (1 - p) * lambda
+@dataclass
+class BetaGammaPrior:
+    gamma_prior: GammaPrior
+    beta_prior: BetaPrior
 
-
-# guardar los parámetros del prior BETA-GAMMA
-
-
-# actualización posterior BETA-GAMMA
+    def sample(self, size: int, rng: Generator | None = None) -> tuple[np.ndarray, np.ndarray]: #nos debolverá lambda1,lambda2
+        rng = default_rng() if rng is None else rng
+        
+        lam = self.gamma_prior.sample(size=size, rng=rng)
+        p = self.beta_prior.sample(size=size, rng=rng)
+        
+        #Transformación
+        lambda1 = p * lam
+        lambda2 = (1 - p) * lam
+        
+        return lambda1, lambda2
+    
