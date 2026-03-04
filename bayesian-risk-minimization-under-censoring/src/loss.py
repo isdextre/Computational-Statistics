@@ -1,8 +1,14 @@
 # el el daño por aceptar lambda1, lamda2
-
+from __future__ import annotations
 import numpy as np
 from numpy.random import default_rng
 from dataclasses import dataclass
+from typing import Union
+
+
+Array = np.ndarray
+FloatOrArray = Union[float, Array]
+
 
 """
 
@@ -74,14 +80,7 @@ En Weibull/Exponencial lo modelamos como probabilidad de falla antes de un umbra
   Exponencial: S(L)=exp(-λ L)    => P(X<L)=1-exp(-λ L)
 """
 
-from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Union
-import numpy as np
-
-Array = np.ndarray
-FloatOrArray = Union[float, Array]
 
 
 # -------------------------
