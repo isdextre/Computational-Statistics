@@ -10,6 +10,7 @@ from numpy.random import default_rng, Generator
 class GammaPrior:
     a0: float #shape
     b0: float #rate
+    # utilizamos el método sample para generar muestras de la distribución gamma utilizando numpy
     def sample(self, size: int, rng:Generator | None = None) -> np.ndarray:
         rng = default_rng() if rng is None else rng
         scale = 1.0 / self.b0 # scale = 1/rate
@@ -45,4 +46,7 @@ class BetaGammaPrior:
         lambda2 = (1 - p) * lam
         
         return lambda1, lambda2
+    
+# Lambda 1 y Lambda 2 son independientes, por lo que la función de densidad conjunta se puede escribir como el producto de las funciones de densidad marginales
+# lambda es el factor de fallas (más grande -> más fallas) que construimos con p
     

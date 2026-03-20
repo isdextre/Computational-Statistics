@@ -5,7 +5,7 @@ from numpy.random import default_rng
 from typing import List
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True) # el diseño es fijo
 class BJPCPlan:
     """
     Plan BJPC:
