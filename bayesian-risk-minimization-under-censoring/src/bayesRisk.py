@@ -47,6 +47,9 @@ def decision_from_phi(phi: float, Cr: float) -> str:
 
 ###############################################################################
 # PARTE 2. Calcular phi = pérdida posterior esperada
+##
+#
+
 ###############################################################################
 def posterior_phi(
     data: dict,
