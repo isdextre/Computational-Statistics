@@ -18,6 +18,7 @@ class BJPCPlan:
     R: List[int] # Cuántas unidades retiro después de cada falla ejem R=[1,0,0,0,0]  (después de la primera falla retirno una y ya no más)
 
 
+# Ahora simulamos, pasa un ciclo y ocurre una falla, de QUÉ producto fue esa falla? P1 o P2? cuántas unidades siguen vivas? cuánto tiempo pasó hasta esa falla? 
 def simulate_bjpc_exp_suffstats(plan: BJPCPlan, lambda1: float, lambda2: float, rng=None) -> dict:
     """
     lambda1: tasa de falla del producto 1
@@ -48,16 +49,19 @@ def simulate_bjpc_exp_suffstats(plan: BJPCPlan, lambda1: float, lambda2: float, 
     u = 0.0
     k1 = 0
 
-    for i in range(k):
+    for i in range(k): # irá de 0,1,2,3,4,5 
         dt = rng.exponential(scale=1.0 / (m * lam_sum))
         t_end += dt # el tiempo final es la suma de los tiempos entre fallas t_end = t_end + df
         u += m * dt # u = u + (m * dt), la suma del tiempo por el número de unidades vivas, es el tiempo total acum considerando unidades vivas
         
+        #sacamos un número aleatorio entre 0 y 1 que será la probabilidad de q el producto sea del producto 1
+        # Si p1 es 0.67, entonces hay un 0.67 de porbabilidad de q sea del producto 1 cc es del producto 2
         if rng.random() < p1: # generamos un número aleaotrio entre 0 y 1, si es menor a p1=lambda1/(lambda1+lambda2)
             # Si el número es menor que p1, la falla es del producto 1, sumamos una falla
             k1 += 1
 
-        if i < k - 1:
+        # Si si fuese de p1 entonces aumento el contador
+        if i < k - 1: # no dejamos que el ciclo llegue a k-1 porque después de la última falla no hay más retiros,
             m -= (R[i] + 1) # m = m - (R[i] + 1)
 
     k2 = k - k1
